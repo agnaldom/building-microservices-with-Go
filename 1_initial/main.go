@@ -23,5 +23,7 @@ func main() {
 		log.Println("Goodbye World")
 	})
 
-	http.ListenAndServe(":9090", nil)
+	log.Println("Starting Server")
+	err := http.ListenAndServe(":9000", nil)
+	log.Fatal(err)
 }
