@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -8,10 +9,14 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
-		log.Panicln("Hello World")
-		d, _ := ioutil.ReadAll(r.Body)
+		log.Println("Hello World")
+		d, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			http.Error(rw, "Ooops", http.StatusBadRequest)
+			return
+		}
 
-		log.Println("Data %s\n", d)
+		fmt.Fprintf(rw, "Hello %s", d)
 	})
 
 	http.HandleFunc("/goodbye", func(http.ResponseWriter, *http.Request) {
